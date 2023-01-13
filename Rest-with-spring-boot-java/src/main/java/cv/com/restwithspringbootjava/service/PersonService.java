@@ -1,6 +1,6 @@
 package cv.com.restwithspringbootjava.service;
 
-import cv.com.restwithspringbootjava.dto.PersonDto;
+import cv.com.restwithspringbootjava.data.dto.v1.PersonDto;
 import cv.com.restwithspringbootjava.exception.ResourceNotFoundException;
 import cv.com.restwithspringbootjava.mapper.PersonMapperImpl;
 import cv.com.restwithspringbootjava.model.Person;

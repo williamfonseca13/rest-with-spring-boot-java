@@ -1,4 +1,4 @@
-package cv.com.restwithspringbootjava.dto;
+package cv.com.restwithspringbootjava.data.dto.v1;
 
 import cv.com.restwithspringbootjava.model.Person;
 

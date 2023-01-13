@@ -1,7 +1,7 @@
 package cv.com.restwithspringbootjava.mapper;
 
 import cv.com.restwithspringbootjava.model.Person;
-import cv.com.restwithspringbootjava.dto.PersonDto;
+import cv.com.restwithspringbootjava.data.dto.v1.PersonDto;
 import org.mapstruct.*;
 
 @Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE, componentModel = "spring")
