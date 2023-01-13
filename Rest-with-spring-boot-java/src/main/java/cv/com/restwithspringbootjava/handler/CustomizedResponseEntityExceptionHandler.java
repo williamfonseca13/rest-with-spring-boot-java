@@ -1,7 +1,7 @@
 package cv.com.restwithspringbootjava.handler;
 
 import cv.com.restwithspringbootjava.exception.ExceptionResponse;
-import cv.com.restwithspringbootjava.exception.UnsupportedMathOperationException;
+import cv.com.restwithspringbootjava.exception.ResourceNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -25,13 +25,13 @@ public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExce
 
     }
 
-    @ExceptionHandler(UnsupportedMathOperationException.class)
-    public final ResponseEntity<ExceptionResponse> handleBadRequestException(Exception ex, WebRequest request) {
+    @ExceptionHandler(ResourceNotFoundException.class)
+    public final ResponseEntity<ExceptionResponse> handleNotFoundException(Exception ex, WebRequest request) {
 
         final var exceptionResponse = new ExceptionResponse(LocalDateTime.now(),
                 ex.getMessage(), request.getDescription(false));
 
-        return new ResponseEntity<>(exceptionResponse, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(exceptionResponse, HttpStatus.NOT_FOUND);
 
     }
 
