@@ -10,8 +10,6 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.logging.Logger;
 
-// TODO implement tests for service
-
 @Service
 public class PersonService {
     private final Logger logger = Logger.getLogger(PersonService.class.getName());

@@ -9,8 +9,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-// TODO implement tests for endpoints
-
 @RestController
 @RequestMapping("/v1/Person")
 public class PersonController {
