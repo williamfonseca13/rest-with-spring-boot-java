@@ -1,12 +1,14 @@
 package cv.com.restwithspringbootjava.controller;
 
-import cv.com.restwithspringbootjava.model.Person;
+import cv.com.restwithspringbootjava.dto.PersonDto;
 import cv.com.restwithspringbootjava.service.PersonService;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
+// TODO implement tests for endpoints
 
 @RestController
 public class PersonController {
@@ -17,12 +19,12 @@ public class PersonController {
     }
 
     @GetMapping(value = "findById/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Person findById(@PathVariable(value = "id") Long id) {
+    public PersonDto findById(@PathVariable(value = "id") Long id) {
         return personService.findById(id);
     }
 
     @GetMapping(value = "findAll", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<Person> findAll() {
+    public List<PersonDto> findAll() {
         return personService.findAll();
     }
 
@@ -31,20 +33,20 @@ public class PersonController {
             consumes = MediaType.APPLICATION_JSON_VALUE
             , produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public Person create(@RequestBody Person person) {
-        return personService.create(person);
+    public PersonDto create(@RequestBody PersonDto personDto) {
+        return personService.create(personDto);
     }
 
     @PutMapping(value = "update",
             consumes = MediaType.APPLICATION_JSON_VALUE
             , produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public Person update(@RequestBody Person person) {
-        return personService.update(person);
+    public PersonDto update(@RequestBody PersonDto personDto) {
+        return personService.update(personDto);
     }
 
     @DeleteMapping(value = "delete/{id}")
-    public ResponseEntity<?> delete(@PathVariable Long id) {
+    public ResponseEntity<String> delete(@PathVariable Long id) {
         personService.delete(id);
         return ResponseEntity.noContent().build();
     }

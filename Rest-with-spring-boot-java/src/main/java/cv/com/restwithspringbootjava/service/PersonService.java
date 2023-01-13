@@ -1,6 +1,8 @@
 package cv.com.restwithspringbootjava.service;
 
+import cv.com.restwithspringbootjava.dto.PersonDto;
 import cv.com.restwithspringbootjava.exception.ResourceNotFoundException;
+import cv.com.restwithspringbootjava.mapper.PersonMapperImpl;
 import cv.com.restwithspringbootjava.model.Person;
 import cv.com.restwithspringbootjava.repository.PersonRepository;
 import org.springframework.stereotype.Service;
@@ -8,53 +10,62 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.logging.Logger;
 
+// TODO implement tests for service
+
 @Service
 public class PersonService {
     private final Logger logger = Logger.getLogger(PersonService.class.getName());
     private final PersonRepository personRepository;
 
+    private final PersonMapperImpl mapper = new PersonMapperImpl();
+
     public PersonService(PersonRepository personRepository) {
         this.personRepository = personRepository;
     }
 
-    public Person findById(Long id) {
-        return personRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("No records found for this ID!"));
+    public PersonDto findById(Long id) {
+
+        final Person person = getPersonById(id);
+
+        return mapper.toDto(person);
     }
 
-    public List<Person> findAll() {
+    public List<PersonDto> findAll() {
 
-        logger.info("Finding all!");
+        final var persons = personRepository.findAll();
 
-        return personRepository.findAll();
+        return persons.stream().map(mapper::toDto).toList();
     }
 
-    public Person create(Person person) {
+    public PersonDto create(PersonDto personDto) {
 
-        logger.info("Creating a person!");
+        final var person = mapper.toEntity(personDto);
 
-        return personRepository.save(person);
+        final Person entity = personRepository.save(person);
+
+        return mapper.toDto(entity);
     }
 
-    public Person update(Person person) {
+    public PersonDto update(PersonDto personDto) {
 
-        logger.info("Updating a person!");
+        final var entity = this.getPersonById(personDto.id());
 
-        final var entity = findById(person.getId());
-        entity.setFirstName(person.getFirstName());
-        entity.setLastName(person.getLastName());
-        entity.setAddress(person.getAddress());
-        entity.setGender(person.getGender());
+        final var person = mapper.partialUpdate(personDto, entity);
 
-        return personRepository.save(entity);
+        final Person updatedEntity = personRepository.save(person);
+
+        return mapper.toDto(updatedEntity);
     }
 
     public void delete(Long id) {
 
-        logger.info("Deleting a person!");
+        final Person person = getPersonById(id);
 
-        final var entity = findById(id);
+        personRepository.delete(person);
+    }
 
-        personRepository.delete(entity);
+    private Person getPersonById(Long id) {
+        return personRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("No records found for this ID!"));
     }
 
 }
