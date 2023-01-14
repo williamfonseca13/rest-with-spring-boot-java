@@ -1,21 +1,21 @@
 package cv.com.restwithspringbootjava.service;
 
+import cv.com.restwithspringbootjava.controller.PersonController;
 import cv.com.restwithspringbootjava.data.dto.v1.PersonDto;
 import cv.com.restwithspringbootjava.exception.ResourceNotFoundException;
-import cv.com.restwithspringbootjava.mapper.PersonMapperImpl;
+import cv.com.restwithspringbootjava.mapper.PersonMapper;
 import cv.com.restwithspringbootjava.model.Person;
 import cv.com.restwithspringbootjava.repository.PersonRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.logging.Logger;
+
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @Service
 public class PersonService {
-    private final Logger logger = Logger.getLogger(PersonService.class.getName());
     private final PersonRepository personRepository;
-
-    private final PersonMapperImpl mapper = new PersonMapperImpl();
 
     public PersonService(PersonRepository personRepository) {
         this.personRepository = personRepository;
@@ -25,34 +25,43 @@ public class PersonService {
 
         final Person person = getPersonById(id);
 
-        return mapper.toDto(person);
+        final var personDto = PersonMapper.toDto(person);
+        personDto.add(linkTo(methodOn(PersonController.class).findById(id)).withSelfRel());
+
+        return personDto;
     }
 
     public List<PersonDto> findAll() {
-
-        final var persons = personRepository.findAll();
-
-        return persons.stream().map(mapper::toDto).toList();
+        return personRepository.findAll().stream()
+                .map(PersonMapper::toDto)
+                .map(obj -> obj.add(linkTo(methodOn(PersonController.class).findById(obj.key())).withSelfRel()))
+                .toList();
     }
 
     public PersonDto create(PersonDto personDto) {
 
-        final var person = mapper.toEntity(personDto);
+        final var person = PersonMapper.toEntity(personDto);
 
         final Person entity = personRepository.save(person);
 
-        return mapper.toDto(entity);
+        final var newPersonDto = PersonMapper.toDto(entity);
+        newPersonDto.add(linkTo(methodOn(PersonController.class).findById(personDto.key())).withSelfRel());
+
+        return newPersonDto;
     }
 
     public PersonDto update(PersonDto personDto) {
 
-        final var entity = this.getPersonById(personDto.id());
+        final var entity = this.getPersonById(personDto.key());
 
-        final var person = mapper.partialUpdate(personDto, entity);
+        final var person = PersonMapper.partialUpdate(personDto, entity);
 
         final Person updatedEntity = personRepository.save(person);
 
-        return mapper.toDto(updatedEntity);
+        final var newPersonDto = PersonMapper.toDto(updatedEntity);
+        newPersonDto.add(linkTo(methodOn(PersonController.class).findById(personDto.key())).withSelfRel());
+
+        return newPersonDto;
     }
 
     public void delete(Long id) {

@@ -19,13 +19,19 @@ public class PersonController {
     }
 
     @Operation(tags = "Person")
-    @GetMapping(value = "findById/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(
+            value = "findById/{id}",
+            produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE, "application/x-yaml"}
+    )
     public PersonDto findById(@PathVariable(value = "id") Long id) {
         return personService.findById(id);
     }
 
     @Operation(tags = "Person")
-    @GetMapping(value = "findAll", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(
+            value = "findAll",
+            produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE, "application/x-yaml"}
+    )
     public List<PersonDto> findAll() {
         return personService.findAll();
     }
@@ -33,17 +39,18 @@ public class PersonController {
     @Operation(tags = "Person")
     @PostMapping(
             value = "/create",
-            consumes = MediaType.APPLICATION_JSON_VALUE
-            , produces = MediaType.APPLICATION_JSON_VALUE
+            consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE, "application/x-yaml"},
+            produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE, "application/x-yaml"}
     )
     public PersonDto create(@RequestBody PersonDto personDto) {
         return personService.create(personDto);
     }
 
     @Operation(tags = "Person")
-    @PutMapping(value = "/update",
-            consumes = MediaType.APPLICATION_JSON_VALUE
-            , produces = MediaType.APPLICATION_JSON_VALUE
+    @PutMapping(
+            value = "/update",
+            consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE, "application/x-yaml"},
+            produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE, "application/x-yaml"}
     )
     public PersonDto update(@RequestBody PersonDto personDto) {
         return personService.update(personDto);
