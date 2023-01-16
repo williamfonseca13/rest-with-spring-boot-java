@@ -9,7 +9,7 @@ import java.io.Serializable;
 public class Book implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long key;
     @Column(name = "author")
     private String author;
     @Column(name = "launch_date", nullable = false)
@@ -18,12 +18,12 @@ public class Book implements Serializable {
     private Double price;
     private String title;
 
-    public Long getId() {
-        return id;
+    public Long getKey() {
+        return key;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setKey(Long key) {
+        this.key = key;
     }
 
     public String getAuthor() {
@@ -65,18 +65,18 @@ public class Book implements Serializable {
 
         Book book = (Book) o;
 
-        return id.equals(book.id);
+        return key.equals(book.key);
     }
 
     @Override
     public int hashCode() {
-        return id.hashCode();
+        return key.hashCode();
     }
 
     @Override
     public String toString() {
         return "Book{" +
-                "id=" + id +
+                "id=" + key +
                 ", author='" + author + '\'' +
                 ", launchDate='" + launchDate + '\'' +
                 ", price=" + price +

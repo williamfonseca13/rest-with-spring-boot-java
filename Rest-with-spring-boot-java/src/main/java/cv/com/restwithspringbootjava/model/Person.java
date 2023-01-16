@@ -10,7 +10,7 @@ import java.util.Objects;
 public class Person implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long key;
     @Column(name = "first_name", nullable = false, length = 80)
     private String firstName;
     @Column(name = "last_name", nullable = false, length = 80)
@@ -20,12 +20,12 @@ public class Person implements Serializable {
     @Column(nullable = false, length = 6)
     private String gender;
 
-    public Long getId() {
-        return id;
+    public Long getKey() {
+        return key;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setKey(Long key) {
+        this.key = key;
     }
 
     public String getFirstName() {
@@ -67,7 +67,7 @@ public class Person implements Serializable {
 
         Person person = (Person) o;
 
-        if (!Objects.equals(id, person.id)) return false;
+        if (!Objects.equals(key, person.key)) return false;
         if (!Objects.equals(firstName, person.firstName)) return false;
         if (!Objects.equals(lastName, person.lastName)) return false;
         if (!Objects.equals(address, person.address)) return false;
@@ -76,7 +76,7 @@ public class Person implements Serializable {
 
     @Override
     public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
+        int result = key != null ? key.hashCode() : 0;
         result = 31 * result + (firstName != null ? firstName.hashCode() : 0);
         result = 31 * result + (lastName != null ? lastName.hashCode() : 0);
         result = 31 * result + (address != null ? address.hashCode() : 0);
