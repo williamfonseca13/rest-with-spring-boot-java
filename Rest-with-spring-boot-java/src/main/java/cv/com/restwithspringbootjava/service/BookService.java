@@ -1,78 +1,81 @@
 package cv.com.restwithspringbootjava.service;
 
 import cv.com.restwithspringbootjava.controller.PersonController;
-import cv.com.restwithspringbootjava.data.dto.v1.PersonDto;
+import cv.com.restwithspringbootjava.data.dto.v1.BookDto;
 import cv.com.restwithspringbootjava.exception.ResourceNotFoundException;
+import cv.com.restwithspringbootjava.mapper.DozerMapper;
 import cv.com.restwithspringbootjava.model.Book;
-import cv.com.restwithspringbootjava.model.Person;
 import cv.com.restwithspringbootjava.repository.BookRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
-//@Service
+@Service
 public class BookService {
-   /* private final BookRepository bookRepository;
+    private final BookRepository bookRepository;
 
     public BookService(BookRepository bookRepository) {
         this.bookRepository = bookRepository;
     }
 
-    public PersonDto findById(Long id) {
+    public BookDto findById(Long id) {
 
-        final Book book = getBookById(id);
+        final var person = getPersonById(id);
 
-        final var personDto = PersonMapper.toDto(book);
+        final var personDto = DozerMapper.parseObject(person, BookDto.class);
         personDto.add(linkTo(methodOn(PersonController.class).findById(id)).withSelfRel());
 
         return personDto;
     }
 
-    public List<PersonDto> findAll() {
-        return bookRepository.findAll().stream()
-                .map(PersonMapper::toDto)
-                .map(obj -> obj.add(linkTo(methodOn(PersonController.class).findById(obj.key())).withSelfRel()))
+    public List<BookDto> findAll() {
+        final var books = bookRepository.findAll();
+        return DozerMapper.parseListObjects(books, BookDto.class).stream()
+                .map(obj -> obj.add(linkTo(methodOn(PersonController.class).findById(obj.getKey())).withSelfRel()))
                 .toList();
     }
 
-    public PersonDto create(PersonDto personDto) {
+    public BookDto create(BookDto bookDto) {
 
-        final var person = PersonMapper.toEntity(personDto);
+        final var book = DozerMapper.parseObject(bookDto, Book.class);
 
-        final Person entity = bookRepository.save(person);
+        final var savedBook = bookRepository.save(book);
 
-        final var newPersonDto = PersonMapper.toDto(entity);
-        newPersonDto.add(linkTo(methodOn(PersonController.class).findById(personDto.key())).withSelfRel());
+        final var newPersonDto = DozerMapper.parseObject(savedBook, BookDto.class);
+        newPersonDto.add(linkTo(methodOn(PersonController.class).findById(bookDto.getKey())).withSelfRel());
 
         return newPersonDto;
     }
 
-    public PersonDto update(PersonDto personDto) {
+    public BookDto update(BookDto bookDto) {
 
-        final Book book = getBookById(personDto.key());
+        Objects.requireNonNull("It is not allowed to persist a null object!");
 
-        final var person = PersonMapper.partialUpdate(personDto, book);
+        final var entity = this.getPersonById(bookDto.getKey());
 
-        final Person updatedEntity = bookRepository.save(person);
+        final var book = DozerMapper.parseObject(bookDto, Book.class);
 
-        final var newPersonDto = PersonMapper.toDto(updatedEntity);
-        newPersonDto.add(linkTo(methodOn(PersonController.class).findById(personDto.key())).withSelfRel());
+        final var updatedEntity = bookRepository.save(book);
 
-        return newPersonDto;
+        final var newBookDto = DozerMapper.parseObject(updatedEntity, BookDto.class);
+        newBookDto.add(linkTo(methodOn(PersonController.class).findById(bookDto.getKey())).withSelfRel());
+
+        return newBookDto;
     }
 
     public void delete(Long id) {
 
-        final Book book = getBookById(id);
+        final var book = getPersonById(id);
 
         bookRepository.delete(book);
     }
 
-    private Book getBookById(Long id) {
+    private Book getPersonById(Long id) {
         return bookRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("No records found for this ID!"));
-    }*/
+    }
 
 }

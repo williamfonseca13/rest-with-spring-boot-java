@@ -149,9 +149,10 @@ class PersonServiceTest {
 
     @Test
     void testUpdateWithNullPerson() {
-        final var exception = assertThrows(NullPointerException.class, () -> {
-            personService.update(null);
-        });
+
+        final var exception = assertThrows(NullPointerException.class, () ->
+                personService.update(null)
+        );
 
         String expectedMessage = "Cannot invoke \"cv.com.restwithspringbootjava.data.dto.v1.PersonDto.getKey()\" because \"personDto\" is null";
         String actualMessage = exception.getMessage();
