@@ -9,6 +9,7 @@ import cv.com.restwithspringbootjava.repository.PersonRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
@@ -51,6 +52,8 @@ public class PersonService {
     }
 
     public PersonDto update(PersonDto personDto) {
+
+        Objects.requireNonNull("It is not allowed to persist a null object!");
 
         final var entity = this.getPersonById(personDto.getKey());
 
