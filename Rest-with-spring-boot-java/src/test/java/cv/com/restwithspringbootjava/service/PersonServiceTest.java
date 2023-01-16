@@ -1,5 +1,6 @@
 package cv.com.restwithspringbootjava.service;
 
+import cv.com.restwithspringbootjava.MockPerson;
 import cv.com.restwithspringbootjava.repository.PersonRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
@@ -47,7 +48,7 @@ class PersonServiceTest {
 
         var result = personService.findById(1L);
         assertNotNull(result);
-        assertNotNull(result.key());
+        assertNotNull(result.getKey());
         assertNotNull(result.getLinks());
         assertTrue(result.toString().contains(""));
     }

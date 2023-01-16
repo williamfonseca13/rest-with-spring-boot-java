@@ -3,7 +3,7 @@ package cv.com.restwithspringbootjava.service;
 import cv.com.restwithspringbootjava.controller.PersonController;
 import cv.com.restwithspringbootjava.data.dto.v1.PersonDto;
 import cv.com.restwithspringbootjava.exception.ResourceNotFoundException;
-import cv.com.restwithspringbootjava.mapper.PersonMapper;
+import cv.com.restwithspringbootjava.mapper.DozerMapper;
 import cv.com.restwithspringbootjava.model.Person;
 import cv.com.restwithspringbootjava.repository.PersonRepository;
 import org.springframework.stereotype.Service;
@@ -25,41 +25,41 @@ public class PersonService {
 
         final var person = getPersonById(id);
 
-        final var personDto = PersonMapper.toDto(person);
+        final var personDto = DozerMapper.parseObject(person, PersonDto.class);
         personDto.add(linkTo(methodOn(PersonController.class).findById(id)).withSelfRel());
 
         return personDto;
     }
 
     public List<PersonDto> findAll() {
-        return personRepository.findAll().stream()
-                .map(PersonMapper::toDto)
-                .map(obj -> obj.add(linkTo(methodOn(PersonController.class).findById(obj.key())).withSelfRel()))
+        final var persons = personRepository.findAll();
+        return DozerMapper.parseListObjects(persons, PersonDto.class).stream()
+                .map(obj -> obj.add(linkTo(methodOn(PersonController.class).findById(obj.getKey())).withSelfRel()))
                 .toList();
     }
 
     public PersonDto create(PersonDto personDto) {
 
-        final var person = PersonMapper.toEntity(personDto);
+        final var person = DozerMapper.parseObject(personDto, Person.class);
 
-        final Person entity = personRepository.save(person);
+        final Person savedPerson = personRepository.save(person);
 
-        final var newPersonDto = PersonMapper.toDto(entity);
-        newPersonDto.add(linkTo(methodOn(PersonController.class).findById(personDto.key())).withSelfRel());
+        final var newPersonDto = DozerMapper.parseObject(savedPerson, PersonDto.class);
+        newPersonDto.add(linkTo(methodOn(PersonController.class).findById(personDto.getKey())).withSelfRel());
 
         return newPersonDto;
     }
 
     public PersonDto update(PersonDto personDto) {
 
-        final var entity = this.getPersonById(personDto.key());
+        final var entity = this.getPersonById(personDto.getKey());
 
-        final var person = PersonMapper.partialUpdate(personDto, entity);
+        final var person = DozerMapper.parseObject(personDto, Person.class);
 
         final Person updatedEntity = personRepository.save(person);
 
-        final var newPersonDto = PersonMapper.toDto(updatedEntity);
-        newPersonDto.add(linkTo(methodOn(PersonController.class).findById(personDto.key())).withSelfRel());
+        final var newPersonDto = DozerMapper.parseObject(updatedEntity, PersonDto.class);
+        newPersonDto.add(linkTo(methodOn(PersonController.class).findById(personDto.getKey())).withSelfRel());
 
         return newPersonDto;
     }

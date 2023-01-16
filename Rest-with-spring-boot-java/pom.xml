@@ -81,6 +81,12 @@
             <artifactId>jackson-dataformat-yaml</artifactId>
         </dependency>
 
+        <!-- https://mvnrepository.com/artifact/com.github.dozermapper/dozer-core -->
+        <dependency>
+            <groupId>com.github.dozermapper</groupId>
+            <artifactId>dozer-core</artifactId>
+            <version>6.4.0</version>
+        </dependency>
 
 
     </dependencies>

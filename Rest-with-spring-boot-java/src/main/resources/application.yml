@@ -1,6 +1,8 @@
 springdoc:
   swagger-ui:
     operations-sorter: method
+    use-root-path: true
+  paths-to-match: /v1/**
 spring:
   datasource:
     driver-class-name: org.postgresql.Driver

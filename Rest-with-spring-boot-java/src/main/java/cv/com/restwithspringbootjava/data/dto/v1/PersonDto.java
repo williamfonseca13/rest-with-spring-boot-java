@@ -1,5 +1,6 @@
 package cv.com.restwithspringbootjava.data.dto.v1;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import cv.com.restwithspringbootjava.model.Person;
 import org.springframework.hateoas.RepresentationModel;
@@ -10,47 +11,54 @@ import java.util.Objects;
 /**
  * A DTO for the {@link Person} entity
  */
-@JsonPropertyOrder({"key","firstName","lastName","address","gender"})
+@JsonPropertyOrder({"key", "firstName", "lastName", "address", "gender"})
 public class PersonDto extends RepresentationModel<PersonDto> implements Serializable {
 
-    private final Long key;
-    private final String firstName;
-    private final String lastName;
-    private final String address;
-    private final String gender;
+    @JsonProperty("id")
+    private Long key;
+    private String firstName;
+    private String lastName;
+    private String address;
+    private String gender;
 
-    public PersonDto(
-            Long key,
-            String firstName,
-            String lastName,
-            String address,
-            String gender
-    ) {
-        this.key = key;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.address = address;
-        this.gender = gender;
-    }
-
-    public Long key() {
+    public Long getKey() {
         return key;
     }
 
-    public String firstName() {
+    public void setKey(Long key) {
+        this.key = key;
+    }
+
+    public String getFirstName() {
         return firstName;
     }
 
-    public String lastName() {
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
         return lastName;
     }
 
-    public String address() {
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getAddress() {
         return address;
     }
 
-    public String gender() {
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getGender() {
         return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
     }
 
     @Override
