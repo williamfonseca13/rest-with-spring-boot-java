@@ -1,19 +1,18 @@
 package cv.com.restwithspringbootjava.data.dto.v1;
 
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import cv.com.restwithspringbootjava.model.Person;
 import org.springframework.hateoas.RepresentationModel;
 
-import java.io.Serial;
 import java.io.Serializable;
 import java.util.Objects;
 
 /**
  * A DTO for the {@link Person} entity
  */
+@JsonPropertyOrder({"key","firstName","lastName","address","gender"})
 public class PersonDto extends RepresentationModel<PersonDto> implements Serializable {
 
-    @Serial
-    private static final long serialVersionUID = 0L;
     private final Long key;
     private final String firstName;
     private final String lastName;

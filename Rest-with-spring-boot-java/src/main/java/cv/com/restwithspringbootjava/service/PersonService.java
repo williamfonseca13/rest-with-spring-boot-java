@@ -23,7 +23,7 @@ public class PersonService {
 
     public PersonDto findById(Long id) {
 
-        final Person person = getPersonById(id);
+        final var person = getPersonById(id);
 
         final var personDto = PersonMapper.toDto(person);
         personDto.add(linkTo(methodOn(PersonController.class).findById(id)).withSelfRel());
