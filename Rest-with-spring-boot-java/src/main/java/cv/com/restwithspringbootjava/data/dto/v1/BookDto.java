@@ -3,12 +3,13 @@ package cv.com.restwithspringbootjava.data.dto.v1;
 import org.springframework.hateoas.RepresentationModel;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 public class BookDto extends RepresentationModel<BookDto> implements Serializable {
     private Long key;
     private String author;
-    private String launchDate;
+    private LocalDateTime launchDate;
     private Double price;
     private String title;
 
@@ -28,11 +29,11 @@ public class BookDto extends RepresentationModel<BookDto> implements Serializabl
         this.author = author;
     }
 
-    public String getLaunchDate() {
+    public LocalDateTime getLaunchDate() {
         return launchDate;
     }
 
-    public void setLaunchDate(String launchDate) {
+    public void setLaunchDate(LocalDateTime launchDate) {
         this.launchDate = launchDate;
     }
 

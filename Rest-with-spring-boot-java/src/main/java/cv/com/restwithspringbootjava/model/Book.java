@@ -3,17 +3,19 @@ package cv.com.restwithspringbootjava.model;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "book")
 public class Book implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long key;
     @Column(name = "author")
     private String author;
     @Column(name = "launch_date", nullable = false)
-    private String launchDate;
+    private LocalDateTime launchDate;
     @Column(nullable = false, length = 100)
     private Double price;
     private String title;
@@ -34,11 +36,11 @@ public class Book implements Serializable {
         this.author = author;
     }
 
-    public String getLaunchDate() {
+    public LocalDateTime getLaunchDate() {
         return launchDate;
     }
 
-    public void setLaunchDate(String launchDate) {
+    public void setLaunchDate(LocalDateTime launchDate) {
         this.launchDate = launchDate;
     }
 

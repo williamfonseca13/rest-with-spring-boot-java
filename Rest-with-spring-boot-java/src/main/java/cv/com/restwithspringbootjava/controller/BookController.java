@@ -32,7 +32,7 @@ public class BookController {
     @Operation(
             summary = "Find All Books",
             description = "Find All Books",
-            tags = "Person",
+            tags = "Book",
             responses = {
                     @ApiResponse(description = "Success", responseCode = "200", content = {
                             @Content(
@@ -57,7 +57,7 @@ public class BookController {
     @Operation(
             summary = "Find a book by Id",
             description = "Find a book by Id",
-            tags = "Person",
+            tags = "Book",
             responses = {
                     @ApiResponse(description = "Success", responseCode = "200",
                             content = @Content(schema = @Schema(implementation = PersonDto.class))
@@ -103,7 +103,7 @@ public class BookController {
     @Operation(
             summary = "Update a book",
             description = "Update a book",
-            tags = "Person",
+            tags = "Book",
             responses = {
                     @ApiResponse(description = "Updated", responseCode = "200",
                             content = @Content(schema = @Schema(implementation = PersonDto.class))
@@ -122,7 +122,7 @@ public class BookController {
     @Operation(
             summary = "Delete a book by Id",
             description = "Delete a book by Id",
-            tags = "Person",
+            tags = "Book",
             responses = {
                     @ApiResponse(description = "No Content", responseCode = "204", content = @Content),
                     @ApiResponse(description = "Bad Request", responseCode = "400", content = @Content),
