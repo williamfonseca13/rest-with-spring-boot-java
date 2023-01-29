@@ -54,24 +54,20 @@ class BookServiceTest {
         when(bookRepository.findAll()).thenReturn(list);
 
         final var people = bookService.findAll();
-
         assertNotNull(people);
         assertEquals(14, people.size());
 
         final var personOne = people.get(1);
-
         assertNotNull(personOne);
         assertNotNull(personOne.getKey());
         assertNotNull(personOne.getLinks());
 
         final var personFour = people.get(4);
-
         assertNotNull(personFour);
         assertNotNull(personFour.getKey());
         assertNotNull(personFour.getLinks());
 
         final var personSeven = people.get(7);
-
         assertNotNull(personSeven);
         assertNotNull(personSeven.getKey());
         assertNotNull(personSeven.getLinks());
@@ -82,7 +78,7 @@ class BookServiceTest {
         final var entity = input.mockEntity(1);
         entity.setKey(1L);
 
-        Book persisted = entity;
+        final var persisted = entity;
         persisted.setKey(1L);
 
         final var vo = input.mockVO(1);
@@ -91,7 +87,6 @@ class BookServiceTest {
         when(bookRepository.save(entity)).thenReturn(persisted);
 
         final var result = bookService.create(vo);
-
         assertNotNull(result);
         assertNotNull(result.getKey());
         assertNotNull(result.getLinks());
@@ -102,7 +97,7 @@ class BookServiceTest {
 
         final var entity = input.mockEntity(1);
 
-        Book persisted = entity;
+        final var persisted = entity;
         persisted.setKey(1L);
 
         final var vo = input.mockVO(1);
@@ -112,7 +107,6 @@ class BookServiceTest {
         when(bookRepository.save(entity)).thenReturn(persisted);
 
         final var result = bookService.update(vo);
-
         assertNotNull(result);
         assertNotNull(result.getKey());
         assertNotNull(result.getLinks());
@@ -133,11 +127,8 @@ class BookServiceTest {
                 bookService.update(null)
         );
 
-        String expectedMessage = "Cannot invoke \"cv.com.restwithspringbootjava.data.dto.v1.BookDto.getKey()\" because \"bookDto\" is null";
-        String actualMessage = exception.getMessage();
-
-        System.out.println(actualMessage);
-        System.out.println(expectedMessage);
+        final var expectedMessage = "Cannot invoke \"cv.com.restwithspringbootjava.data.dto.v1.BookDto.getKey()\" because \"bookDto\" is null";
+        final var actualMessage = exception.getMessage();
 
         assertTrue(actualMessage.contains(expectedMessage));
     }

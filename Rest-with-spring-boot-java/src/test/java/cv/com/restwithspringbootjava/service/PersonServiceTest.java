@@ -1,7 +1,6 @@
 package cv.com.restwithspringbootjava.service;
 
 import cv.com.restwithspringbootjava.MockPerson;
-import cv.com.restwithspringbootjava.model.Person;
 import cv.com.restwithspringbootjava.repository.PersonRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -33,7 +32,7 @@ class PersonServiceTest {
     }
 
     @Test
-    void findByIdTest() throws Exception {
+    void findByIdTest() {
 
         final var person = input.mockEntity();
         person.setKey(1L);
@@ -44,7 +43,6 @@ class PersonServiceTest {
         assertNotNull(result);
         assertNotNull(result.getKey());
         assertNotNull(result.getLinks());
-        assertTrue(result.toString().contains(""));
         assertEquals("Male", result.getGender());
         assertEquals("Addres Test0", result.getAddress());
         assertEquals("First Name Test0", result.getFirstName());
@@ -53,17 +51,15 @@ class PersonServiceTest {
 
     @Test
     void findAllTest() {
-        final var list = input.mockEntityList();
 
+        final var list = input.mockEntityList();
         when(personRepository.findAll()).thenReturn(list);
 
         final var people = personService.findAll();
-
         assertNotNull(people);
         assertEquals(14, people.size());
 
         final var personOne = people.get(1);
-
         assertNotNull(personOne);
         assertNotNull(personOne.getKey());
         assertNotNull(personOne.getLinks());
@@ -73,7 +69,6 @@ class PersonServiceTest {
         assertEquals("Female", personOne.getGender());
 
         final var personFour = people.get(4);
-
         assertNotNull(personFour);
         assertNotNull(personFour.getKey());
         assertNotNull(personFour.getLinks());
@@ -83,7 +78,6 @@ class PersonServiceTest {
         assertEquals("Male", personFour.getGender());
 
         final var personSeven = people.get(7);
-
         assertNotNull(personSeven);
         assertNotNull(personSeven.getKey());
         assertNotNull(personSeven.getLinks());
@@ -98,7 +92,7 @@ class PersonServiceTest {
         final var entity = input.mockEntity(1);
         entity.setKey(1L);
 
-        Person persisted = entity;
+        final var persisted = entity;
         persisted.setKey(1L);
 
         final var vo = input.mockVO(1);
@@ -107,7 +101,6 @@ class PersonServiceTest {
         when(personRepository.save(entity)).thenReturn(persisted);
 
         final var result = personService.create(vo);
-
         assertNotNull(result);
         assertNotNull(result.getKey());
         assertNotNull(result.getLinks());
@@ -121,7 +114,7 @@ class PersonServiceTest {
     void updateTest() {
         final var entity = input.mockEntity(1);
 
-        Person persisted = entity;
+        final var persisted = entity;
         persisted.setKey(1L);
 
         final var vo = input.mockVO(1);
@@ -131,7 +124,6 @@ class PersonServiceTest {
         when(personRepository.save(entity)).thenReturn(persisted);
 
         final var result = personService.update(vo);
-
         assertNotNull(result);
         assertNotNull(result.getKey());
         assertNotNull(result.getLinks());
@@ -143,7 +135,7 @@ class PersonServiceTest {
 
     @Test
     void deleteTest() {
-        Person entity = input.mockEntity(1);
+        final var entity = input.mockEntity(1);
         entity.setKey(1L);
         when(personRepository.findById(1L)).thenReturn(Optional.of(entity));
         personService.delete(1L);
@@ -156,11 +148,8 @@ class PersonServiceTest {
                 personService.update(null)
         );
 
-        String expectedMessage = "Cannot invoke \"cv.com.restwithspringbootjava.data.dto.v1.PersonDto.getKey()\" because \"personDto\" is null";
-        String actualMessage = exception.getMessage();
-
-        System.out.println(actualMessage);
-        System.out.println(expectedMessage);
+        final var expectedMessage = "Cannot invoke \"cv.com.restwithspringbootjava.data.dto.v1.PersonDto.getKey()\" because \"personDto\" is null";
+        final var actualMessage = exception.getMessage();
 
         assertTrue(actualMessage.contains(expectedMessage));
     }
