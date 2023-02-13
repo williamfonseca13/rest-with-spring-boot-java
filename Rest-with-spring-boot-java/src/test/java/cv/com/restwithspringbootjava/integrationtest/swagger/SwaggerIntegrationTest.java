@@ -1,6 +1,7 @@
 package cv.com.restwithspringbootjava.integrationtest.swagger;
 
 import cv.com.restwithspringbootjava.config.TestConfig;
+import cv.com.restwithspringbootjava.integrationtest.testcontainers.AbstractIntegrationTest;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
@@ -9,8 +10,7 @@ import static io.restassured.RestAssured.given;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
-@ActiveProfiles("test")
-class SwaggerIntegrationTest {
+class SwaggerIntegrationTest extends AbstractIntegrationTest{
 
     @Test
     void shouldDisplaySwaggerUiPage() {

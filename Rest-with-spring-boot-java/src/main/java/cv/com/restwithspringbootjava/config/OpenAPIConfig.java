@@ -10,14 +10,14 @@ import org.springframework.context.annotation.Configuration;
 public class OpenAPIConfig {
 
     @Bean
-    public OpenAPI customOpenAPI() {
+    OpenAPI customOpenAPI() {
 
         final var licence = new License()
                 .name("Apache 2.0")
                 .url("https://www.abola.pt");
 
         final var info = new Info()
-                .title("Restfull API With java and Spring Boot 3")
+                .title("Restfull API With java 19 and Spring Boot 3.0.2")
                 .version("v1")
                 .description("Udemy Course")
                 .termsOfService("https://www.abola.pt")

@@ -13,19 +13,19 @@ import java.util.stream.Stream;
 @ContextConfiguration(initializers = AbstractIntegrationTest.Initializer.class)
 public class AbstractIntegrationTest {
 
-    public static class Initializer implements ApplicationContextInitializer<ConfigurableApplicationContext> {
+    static class Initializer implements ApplicationContextInitializer<ConfigurableApplicationContext> {
 
         static PostgreSQLContainer<?> postgreSQLContainer = new PostgreSQLContainer<>("postgres:15.1");
 
-        private static void startContainers() {
-            Startables.deepStart(Stream.of(postgreSQLContainer));
+        void startContainers() {
+            Startables.deepStart(Stream.of(postgreSQLContainer)).join();
         }
 
-        private static Map<String, Object> createTestContainerConfiguration() {
+        Map<String, Object> createTestContainerConfiguration() {
             return Map.of(
                     "spring.datasource.url", postgreSQLContainer.getJdbcUrl(),
                     "spring.datasource.username", postgreSQLContainer.getUsername(),
-                    "spring.datasource.postgres", postgreSQLContainer.getPassword()
+                    "spring.datasource.password", postgreSQLContainer.getPassword()
             );
         }
 
